@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأسئلة الشائعة | FAQ - NABZA CV</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* تعريف الألوان والمتغيرات لتسهيل التخصيص */
+        :root {
+            --primary-color: #0056B3; /* الأزرق الأساسي لموقعك */
+            --secondary-color: #004494; /* أزرق أغمق للـ hover وتفاصيل */
+            --accent-color: #ffffff; /* لون فاتح جداً للخلفيات المميزة */
+            --text-dark: #333;
+            --text-light: #555;
+            --border-light: #e0e0e0;
+            --shadow-light: 0 4px 15px rgba(0,0,0,0.08);
+            --shadow-hover: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            direction: rtl;
+            text-align: right;
+            line-height: 1.7;
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            background-color: var(--accent-color);
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* الهيدر - كما هو متفق عليه */
+        .header {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: var(--shadow-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .header .logo img {
+            height: 50px; /* حجم الشعار */
+            width: auto;
+            display: block;
+        }
+
+        /* تنسيقات عامة للمحتوى */
+        .container {
+            max-width: 1100px; /* عرض مناسب لصفحة الأسئلة الشائعة */
+            margin: 40px auto;
+            padding: 40px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: var(--shadow-light);
+            flex-grow: 1;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 3.5em;
+            font-weight: 800;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 50%;
+            transform: translateX(50%);
+            width: 120px;
+            height: 5px;
+            background-color: var(--primary-color);
+            border-radius: 3px;
+        }
+
+        /* تنسيق الأقسام الرئيسية (الأسئلة والأجوبة) */
+        .faq-section {
+            margin-bottom: 40px;
+        }
+
+        .faq-item {
+            background-color: var(--accent-color);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .faq-question {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 25px;
+            background-color: #fff;
+            color: var(--secondary-color);
+            font-size: 1.4em;
+            font-weight: 700;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .faq-question:hover {
+            background-color: var(--accent-color);
+        }
+
+        .faq-question .icon-sm {
+            width: 28px;
+            height: 28px;
+            fill: var(--primary-color);
+            margin-left: 15px; /* مسافة بين الأيقونة والنص */
+            flex-shrink: 0; /* تمنع الأيقونة من الانكماش */
+        }
+
+        .faq-question .arrow {
+            font-size: 1.5em;
+            transition: transform 0.3s ease;
+            transform: rotate(90deg); /* سهم لليمين عند البداية */
+        }
+
+        .faq-question.active .arrow {
+            transform: rotate(-90deg); /* سهم للأسفل عند الفتح */
+        }
+
+        /* هذا هو الجزء الأهم لحل مشكلة ظهور الإجابات */
+        .faq-answer {
+            padding: 0 25px; /* لا يوجد padding رأسي مبدئياً */
+            font-size: 1.05em;
+            color: var(--text-dark);
+            background-color: var(--accent-color);
+            max-height: 0;
+            overflow: hidden !important; /* تأكيد إخفاء المحتوى الزائد */
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+        }
+
+        .faq-answer.open {
+            max-height: 500px !important; /* قيمة كبيرة بما يكفي لاستيعاب المحتوى */
+            padding: 15px 25px 25px 25px !important; /* إضافة padding بعد الفتح */
+        }
+
+        /* زر الرجوع للصفحة الرئيسية - بتصميم عصري ومميز */
+        .back-to-home {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 60px;
+            margin-bottom: 20px;
+        }
+
+        .back-to-home a {
+            background-color: var(--primary-color);
+            color: #fff;
+            text-decoration: none;
+            padding: 16px 35px;
+            border-radius: 35px;
+            font-size: 1.2em;
+            font-weight: 700;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 8px 18px rgba(0, 86, 179, 0.4);
+            display: flex;
+            align-items: center;
+        }
+
+        .back-to-home a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 22px rgba(0, 86, 179, 0.5);
+        }
+
+        .back-to-home a .arrow-icon {
+            display: inline-block;
+            margin-right: 12px;
+            transform: rotate(180deg);
+            font-size: 1.7em;
+            line-height: 1;
+        }
+
+        /* تصميم للموبايل (Responsive Design) */
+        @media (max-width: 992px) {
+            .container {
+                max-width: 90%;
+                margin: 30px auto;
+                padding: 30px;
+            }
+            h1 {
+                font-size: 2.8em;
+                margin-bottom: 30px;
+            }
+            h1::after {
+                width: 90px;
+            }
+            .faq-question {
+                font-size: 1.2em;
+                padding: 18px 20px;
+            }
+            .faq-question .icon-sm {
+                width: 24px;
+                height: 24px;
+                margin-left: 10px;
+            }
+            .faq-answer {
+                font-size: 1em;
+                padding: 0 20px; /* تعديل padding هنا أيضاً */
+            }
+            .faq-answer.open {
+                padding: 12px 20px 20px 20px !important;
+            }
+            .back-to-home a {
+                padding: 14px 28px;
+                font-size: 1.1em;
+            }
+            .back-to-home a .arrow-icon {
+                font-size: 1.5em;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                border-radius: 10px;
+                margin: 25px auto;
+            }
+            h1 {
+                font-size: 2.2em;
+                margin-bottom: 25px;
+            }
+            h1::after {
+                width: 70px;
+                height: 3px;
+            }
+            .faq-question {
+                font-size: 1.1em;
+                padding: 15px 18px;
+            }
+            .faq-question .icon-sm {
+                width: 20px;
+                height: 20px;
+                margin-left: 8px;
+            }
+            .faq-answer {
+                font-size: 0.95em;
+                padding: 0 18px; /* تعديل padding هنا أيضاً */
+            }
+            .faq-answer.open {
+                padding: 10px 18px 18px 18px !important;
+            }
+            .back-to-home {
+                margin-top: 40px;
+                margin-bottom: 10px;
+            }
+            .back-to-home a {
+                padding: 12px 25px;
+                font-size: 1em;
+            }
+            .back-to-home a .arrow-icon {
+                font-size: 1.3em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 10px 15px;
+            }
+            .header .logo img {
+                height: 40px;
+            }
+            h1 {
+                font-size: 1.8em;
+                margin-bottom: 20px;
+            }
+            .container {
+                padding: 15px;
+            }
+            .faq-question {
+                font-size: 1em;
+                padding: 12px 15px;
+            }
+            .faq-question .icon-sm {
+                width: 18px;
+                height: 18px;
+                margin-left: 5px;
+            }
+            .faq-answer {
+                font-size: 0.9em;
+                padding: 0 15px; /* تعديل padding هنا أيضاً */
+            }
+            .faq-answer.open {
+                padding: 8px 15px 15px 15px !important;
+            }
+        }
+    </style>
+    <script defer>
+        // استخدام defer يجعل السكريبت يعمل بعد تحميل HTML بالكامل
+        document.addEventListener('DOMContentLoaded', () => {
+            const faqQuestions = document.querySelectorAll('.faq-question');
+
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', () => {
+                    const answer = question.nextElementSibling; // العنصر التالي هو الإجابة
+
+                    // إغلاق كل الإجابات المفتوحة الأخرى
+                    faqQuestions.forEach(item => {
+                        if (item !== question && item.classList.contains('active')) {
+                            item.classList.remove('active');
+                            item.nextElementSibling.classList.remove('open');
+                        }
+                    });
+
+                    // تبديل حالة السؤال الحالي
+                    question.classList.toggle('active');
+                    answer.classList.toggle('open');
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+
+    <header class="header">
+        <a href="https://nabzacv.blogspot.com" class="logo">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTTLuMoi2SW4uOsW7ZP-FtViLmJro2vpvc1xuXXDe3hKR3WSRdNIKX89kvw318LRukveHMtpKdrI1PpiuwCN3lEykSwoscPPIVyb33uhy9iFr8NUYSP6xcuSV-UJN2bV6LARvzfquvdFj9CbQs9jNhk-U4qGiUjPFZsbwNJSk1x3wn6mlVxvKNPCWyaOo/s1600/5.png" alt="NABZA CV Logo">
+        </a>
+    </header>
+
+    <div class="container">
+        <h1>الأسئلة الشائعة | FAQ</h1>
+
+        <div class="faq-section" id="faq-list">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    ما هي خدمة NABZA CV؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    هي خدمة احترافية لتصميم وكتابة السيرة الذاتية بأسلوب جذاب ومنسق يعكس مهاراتك وخبراتك ويوصلها لأصحاب العمل بشكل مميز.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    ما الذي يميز NABZA CV عن باقي الخدمات؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    بنتعامل مع كل عميل على حدة، بنصمم الـ CV حسب مجاله، وبنضيف لمسة احترافية تخليه يبرز في وسط المتقدمين.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    هل تناسب الخدمة حديثي التخرج؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    طبعًا! بنجهز لهم سيرة ذاتية مخصصة تركز على التعليم والمهارات والدورات بدل الخبرات.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    كيف أبدأ في طلب الخدمة؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    كل اللي عليك تبعت بياناتك الأساسية من خلال زرار اطلب الآن في الصفحة الرئيسية وإحنا هنتواصل معاك فورًا.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    هل أقدر أختار شكل التصميم؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    أكيد، عندنا كذا شكل تصميم تقدر تختار منهم، أو تطلب تصميم خاص يناسب ذوقك.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    هل بتقدموا السير الذاتية بالعربي والإنجليزي؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    آه طبعًا، وبكفاءة عالية في اللغتين.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    هل بتجهزوا CV للوظائف الدولية؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    أيوه، بنشتغل على سير ذاتية تتوافق مع المعايير الدولية في الشكل والمحتوى.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    هل بتجمعوا البيانات مني ولا لازم أكون كاتب CV قبل كده؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    مش لازم، إحنا بنسألك الأسئلة اللي تخلينا نكتب CV كامل بناءً على معلوماتك.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    هل ممكن أعدل على الـ CV بعد ما استلمه؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    أيوه، أول تعديل مجاني خلال 7 أيام من استلام الملف.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    هل ممكن أشوف نماذج قبل الطلب؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    أكيد، نقدر نعرض نماذج بدون بيانات شخصية للخصوصية.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    مدة تنفيذ الخدمة قد إيه؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    من 24-48 ساعة بعد استلام البيانات وتأكيد الطلب.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    هل بتقدموا Cover Letter؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    أيوه، نكتب خطاب تعريفي مميز يتماشى مع الـ CV والوظيفة.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    هل بتعملوا LinkedIn Profile؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    أكيد، بنصمم حساب لينكدإن احترافي يواكب الـ CV بتاعك.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    هل بتشتغلوا على قوالب جاهزة؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    لأ، كل CV بيتعمل من الصفر حسب العميل والمجال.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    هل ممكن أحط صورة شخصية في الـ CV؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    حسب رغبتك، وفيه مجالات بننصح فيها بالصورة ومجالات لأ.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    وسائل الدفع المتاحة إيه؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    محافظ إلكترونية زي فودافون كاش وغيره من المحافظ الإلكترونية.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    هل يمكن استرجاع الفلوس؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    لو ما ابتديناش الشغل، ممكن. بعد البدء، للأسف مفيش استرجاع.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    هل بتراجعوا المعلومات اللي هابعتها؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    طبعًا، بنراجع كل حاجة ونتأكد منها قبل ما نبدأ التصميم.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    إيه البيانات المطلوبة عشان أبدأ؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    الاسم - المؤهل - الخبرات - المهارات - الدورات - المشاريع - بيانات التواصل.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    هل هستلم نسخة قابلة للتعديل؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    أكيد، هتستلم نسختين: PDF ونسخة Word قابلة للتعديل.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    هل ممكن أطبع الـ CV؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    أيوه، التصميم بيكون بجودة طباعة عالية.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    هل في تواصل مباشر مع المصمم؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    أكيد، هنكون معاك خطوة بخطوة لحد ما تستلم ملفك.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    هل بتجهزوا CV للمنح الدراسية؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    آه، بنجهز CV أكاديمي وخطابات توصية للمنح والدراسات العليا.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    لو التصميم ما عجبنيش أعمل إيه؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    بنسمع ملاحظاتك ونعمل تعديل مجاني حسب المطلوب.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    هل في دعم بعد التسليم؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    أكيد، لو محتاج أي تعديل بسيط أو استشارة بنرد عليك في أي وقت.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    هل تقدروا تخدموا عملاء من خارج مصر؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    أيوه، بنخدم عملاء من كل أنحاء العالم أونلاين.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    هل بتقدموا تدريب على LinkedIn؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    آه، فيه باقات فيها جلسات إرشاد على استخدام LinkedIn بذكاء.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12L16 14" stroke="#0056B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    هل الـ CV بيكون مخصص لكل مجال؟
+                    <span class="arrow">&#x203A;</span>
+                </div>
+                <div class="faq-answer">
+                    أكيد، بنكتب CV متخصص يناسب كل مجال سواء هندسة، طب، محاسبة، تسويق، تكنولوجيا، وغيرها.
+                </div>
+            </div>
+        </div>
+
+        <div class="back-to-home">
+            <a href="https://nabzacv.blogspot.com">
+                <span class="arrow-icon">&#x2190;</span> الرجوع للصفحة الرئيسية
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
